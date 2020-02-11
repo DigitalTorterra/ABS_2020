@@ -86,7 +86,9 @@ class Kalman():
 
 #Abstracts the Kalman filter
 class DataFilter():
-    def __init__(self):
+    def __init__(self,use_BNO=True):
+        self.use_BNO = use_BNO
+
         var_m = 3
         var_s = .1
         var_a = 5 
@@ -96,8 +98,9 @@ class DataFilter():
 
         self.timestamp = time.time()
 
-    def start_time(self):
+    def refresh(self):
         self.timestamp = time.time()
+        self.filter.set_state(np.array([0,0,0]))
 
     #Constructs a matrix to move from the body frame to the inertial frame
     def body_to_inertial(self,roll,pitch,yaw):
@@ -122,15 +125,19 @@ class DataFilter():
     def process_data(self,data):
         timestamp,euler,altitude,accel = data
         
-        #convert euler angles to radians
-        roll  = euler[0]*np.pi/180
-        pitch = euler[1]*np.pi/180
-        yaw   = euler[2]*np.pi/180
+        if self.use_BNO:
+            #convert euler angles to radians
+            roll  = euler[0]*np.pi/180
+            pitch = euler[1]*np.pi/180
+            yaw   = euler[2]*np.pi/180
 
-        #create vertical acceleration and angle with vertical
-        rot = self.body_to_inertial(roll,pitch,yaw)
-        theta = rot@self.ref #create theta from a rotation matrix
-        accel = rot@accel    #transform accel to the inertial frame
+            #create vertical acceleration and angle with vertical
+            rot = self.body_to_inertial(roll,pitch,yaw)
+            theta = rot@self.ref #create theta from a rotation matrix
+            accel = rot@accel    #transform accel to the inertial frame
+        else:
+            theta = 0
+        
         accel = accel[1]
 
         #handle time
