@@ -6,6 +6,9 @@ class Servo():
         #set rotation bounds
         self.min_phi = 0
         self.max_phi = 67.5
+
+        self.min_dc = 1400
+        self.max_dc = 2100
         
         GPIO.setmode(GPIO.BOARD)
 
@@ -16,9 +19,14 @@ class Servo():
 
     def rotate(self,phi):
         #write some conversion between phi and duty cycle
-        new_cycle = phi
-        self.p.ChangeDutyCycle(new_cycle)
-    
+        if phi >= self.min_phi and phi <= self.max_phi:
+            norm_phi = (phi-self.min_phi)/(self.max_phi-self.min_phi)
+            new_cycle = self.min_dc + norm_phi*(self.max_dc-self.min_dc)
+        
+            self.p.ChangeDutyCycle(new_cycle)
+        else:
+            print('Invalid rotation given')
+
     def __del__(self):
         self.p.stop()
         GPIO.cleanup()
