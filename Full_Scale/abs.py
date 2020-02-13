@@ -3,6 +3,7 @@ from Data_Logger import *
 from Kalman import *
 from State_Manager import *
 from PID import *
+from Servo import *
 
 use_bno = 1
 
@@ -11,6 +12,7 @@ dlogger = DataLogger(use_bno)
 dfilter = DataFilter(use_bno)
 piddle  = PID()
 state_machine = StateManager()
+servo = Servo()
 
 while True:
     #Read in data from the data logger
@@ -38,3 +40,4 @@ while True:
         phi = 0
 
     #actuate servo to phi radians
+    servo.rotate(phi)
