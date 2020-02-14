@@ -7,15 +7,16 @@ class Servo():
         self.min_phi = 0
         self.max_phi = 67.5
 
-        self.min_dc = 1400
-        self.max_dc = 2100
+        #2100/2500 (2500==1)
+        self.min_dc = .6  
+        self.max_dc = .84
         
         GPIO.setmode(GPIO.BOARD)
 
         #Set up PWM pin
         GPIO.setup(32,GPIO.OUT)
-        self.p = GPIO.PWM(32,50)
-        self.p.start(0)
+        self.p = GPIO.PWM(32,400) #pin, freq
+        self.p.start(self.min_dc)
 
     def rotate(self,phi):
         #write some conversion between phi and duty cycle
