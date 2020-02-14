@@ -16,9 +16,11 @@ import board,busio
 import glob
 
 import adafruit_mpl3115a2
-import adafruit_bno055
+#import adafruit_bno055
+from Adafruit_BNO055 import BNO055 #Import the new library 
 import adafruit_adxl34x
 from gpiozero import LED
+
 
 
 
@@ -33,7 +35,8 @@ class DataLogger():
 
         if use_BNO:
             #BNO Initialization
-            self.bno = adafruit_bno055.BNO055(self.i2c)
+            #self.bno = adafruit_bno055.BNO055(self.i2c)
+            self.bno = BNO055.BNO055(serial_port='/dev/serial0', rst=18)
             #self.bno.use_external_crystal = True
         else:
             self.bno_euler = [0,0,0]
@@ -124,7 +127,7 @@ class DataLogger():
             #bno_mag = tuple([i if i is not None else 0 for i in bno_mag])
             #bno_gyro = bno.gyro
             #bno_gyro = tuple([i if i is not None else 0 for i in bno_gyro])
-            self.bno_euler = self.bno.euler
+            self.bno_euler = self.bno.read_euler()
             #print(bno_euler)
             self.bno_euler = tuple([i if i is not None else 0 for i in self.bno_euler])
             #bno_quaternion = bno.quaternion
