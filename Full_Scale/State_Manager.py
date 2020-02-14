@@ -7,8 +7,8 @@ class StateManager():
         self.current_state = 0
         self.threshold_of_liftoff = 0
         self.threshold_of_burnout = 0
-        self.emergency_height = 1000
-        self.apogee = 4444
+        self.emergency_height = 305
+        self.apogee = 1354
         self.threshold_of_landing = 0
         #The exact values of threshold of liftoff,burnout, and landing should replace the 0's
   
