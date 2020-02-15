@@ -130,7 +130,7 @@ class PID():
     
     #Outputs the current shaft rotation
     def get_phi(self):
-        return self.phi[-1]
+        return self.phi[-1]*180/np.pi
 
 
 

@@ -54,31 +54,6 @@ class DataLogger():
         self.adxl.range = adafruit_adxl34x.Range.RANGE_16_G
         self.adxl.data_rate = adafruit_adxl34x.DataRate.RATE_100_HZ
 
-        #Initialize file and write header
-        self.filename = self.gen_filename()
-        with open(self.filename,'w') as f:
-            f.write("Time ms,")
-            #f.write("BNO X Acceleration m/s^2,")
-            #f.write("BNO Y Acceleration m/s^2,")
-            #f.write("BNO Z Acceleration m/s^2,")
-            #f.write("BNO Gyro X rad/s,")    
-            #f.write("BNO Gyro Y rad/s,")    
-            #f.write("BNO Gyro Z rad/s,")
-            if use_BNO: 
-                f.write("BNO Euler Angle X,")    
-                f.write("BNO Euler Angle Y,")    
-                f.write("BNO Euler Angle Z,")    
-            #f.write("BNO Magnetometer X,")    
-            #f.write("BNO Magnetometer Y,")    
-            #f.write("BNO Magnetometer Z,")    
-            #f.write("BNO Gravity X,")    
-            #f.write("BNO Gravity Y,")    
-            #f.write("BNO Gravity Z,")    
-            f.write("Altitude m,")    
-            f.write("ADXL X Acceleration,")    
-            f.write("ADXL Y Acceleration,")    
-            f.write("ADXL Z Acceleration,")    
-            f.write("\n") 
 
     #Take a running sample and create a new reference for the MPL sensor
     def zero_mpl(self):
@@ -89,23 +64,6 @@ class DataLogger():
             time.sleep(.005)
         self.mpl.sealevel_pressure = int(total / 200)
 
-    #Figure out what to name the file
-    def gen_filename(self):
-        files = glob.glob('./data*')
-        x = 0
-        found = False
-        while not found:
-            found = True
-            for file in files:
-                num = int(''.join([i for i in file if i in '1234567890']))
-                if num == x:
-                    found = False
-
-            if not found:
-                x += 1
-        filename = 'data'+str(x) + '.csv'   
-
-        return filename         
 
     #Read sensor data
     def read_data(self):
@@ -141,19 +99,6 @@ class DataLogger():
 
         self.led.off()
 
-    #Write current sensor data to a file
-    def write_data(self):
-        with open(self.filename,'a') as f:
-            f.write(str(self.timestamp)+', ')
-            #f.write('%f, %f, %f,'%bno_accel)
-            #f.write('%f, %f, %f,'%bno_gyro)
-            if self.use_BNO:
-                f.write('%f, %f, %f,'%self.bno_euler)
-            #f.write('%f, %f, %f,'%bno_mag)
-            #f.write('%f, %f, %f,'%bno_gravy)
-            f.write(str(self.mpl_altitude))
-            f.write(', %f, %f, %f'%self.adxl_accel)
-            f.write('\n')
 
     #Outputs the current data
     def get_data(self):

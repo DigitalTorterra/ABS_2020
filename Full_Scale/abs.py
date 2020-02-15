@@ -4,6 +4,7 @@ from Kalman import *
 from State_Manager import *
 from PID import *
 from Servo import *
+from Scribe import *
 
 use_bno = 0
 
@@ -13,11 +14,11 @@ dfilter = DataFilter(use_bno)
 piddle  = PID()
 state_machine = StateManager()
 servo = Servo()
+scribe = Scribe()
 
 while True:
     #Read in data from the data logger
     dlogger.read_data()
-    dlogger.write_data()
     raw_data = dlogger.get_data()
 
     #Filter the data
@@ -43,3 +44,4 @@ while True:
     servo.rotate(phi)
 
     print(y,v,a)
+    scribe(t,raw_data[0],raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
