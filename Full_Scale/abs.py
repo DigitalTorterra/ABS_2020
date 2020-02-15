@@ -42,4 +42,4 @@ while True:
     #actuate servo to phi radians
     servo.rotate(phi)
 
-    print(raw_data[-1])
+    print(y,v,a)

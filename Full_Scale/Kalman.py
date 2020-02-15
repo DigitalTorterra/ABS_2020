@@ -138,7 +138,7 @@ class DataFilter():
         else:
             theta = 0
         
-        accel = accel[1]
+        accel = accel[0]
 
         #handle time
         dt = timestamp-self.timestamp
