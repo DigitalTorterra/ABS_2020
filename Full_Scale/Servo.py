@@ -32,5 +32,5 @@ class Servo():
         else:
             print('Invalid rotation given')
     def __del__(self):
-        os.system('sudo pkill pigpiod')
+        os.system('sudo killall pigpiod')
 
