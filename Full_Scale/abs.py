@@ -44,4 +44,4 @@ while True:
     servo.rotate(phi)
 
     print(y,v,a)
-    scribe(t,raw_data[0],raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
+    scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
