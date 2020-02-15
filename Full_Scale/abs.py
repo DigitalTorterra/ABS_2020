@@ -5,7 +5,7 @@ from State_Manager import *
 from PID import *
 from Servo import *
 
-use_bno = 1
+use_bno = 0
 
 #TODO: consider adding parallelization
 dlogger = DataLogger(use_bno)
@@ -41,3 +41,5 @@ while True:
 
     #actuate servo to phi radians
     servo.rotate(phi)
+
+    print(raw_data,state,t,theta,y,v,a,phi)

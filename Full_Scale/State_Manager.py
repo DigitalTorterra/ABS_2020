@@ -22,21 +22,21 @@ class StateManager():
         next_state = self.current_state
 
         if self.current_state == 0: #Armed
-            if acceleration > self.threshold_of_liftoff or height > self.threshold_height_of_liftoff:
+            if acceleration > self.threshold_of_liftoff or height > self.emergency_height/3:
                 next_state = 1
 
         if self.current_state == 1: #Launched
-            if (acceleration < self.threshold_of_burnout and velocity = self.threshold_vel_of_burnout) or (height > self.emergency_height):
+            if (acceleration < self.threshold_of_burnout and velocity >= self.threshold_vel_of_burnout) or (height > self.emergency_height):
                 next_state = 2
 
         if self.current_state == 2: #Burnout
             if acceleration > self.threshold_of_burnout:
                 next_stage = 1
                 #Return to the Launched stage because the noises in acceleration
-            if height == self.apogee:
+            if velocity < 0:
                 next_stage = 3
                 #Change to the Apogee stage
-            elif height > self.apogee:
+            elif height > self.apogee and velocity > 0:
                 next_stage = 4
                 #Change to the Overshot stage
                 
@@ -44,12 +44,12 @@ class StateManager():
             if velocity > 0:
                 next_stage = 2
                 #Return to the Burnout stage if the velocity is still greater than 0
-            if velocity == 0 and height ==0 and acceleration ==0:
-                next_stage = 4
+            if velocity <= 10 and height <=10 and acceleration <=0:
+                next_stage = 5
                 #Change to the Landed Stage
                 
         if self.current_state == 4: #Overshot
-            if velocity == 0:
+            if velocity <= 0:
                 next_stage = 3
             #Change to Apogee stage
 

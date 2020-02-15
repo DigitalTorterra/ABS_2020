@@ -12,7 +12,7 @@ class Servo():
 
         #2100/2500 (2500==1)
         self.min_dc = int(.6*255)
-        self.max_dc = int(.84)
+        self.max_dc = int(.84*255)
         
         self.pin = 12
         self.freq = 400
@@ -31,4 +31,6 @@ class Servo():
             self.pi.set_PWM_dutycycle(self.pin,new_cycle)
         else:
             print('Invalid rotation given')
+    def __del__(self):
+        os.system('sudo pkill pigpiod')
 
