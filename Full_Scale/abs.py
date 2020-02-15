@@ -14,7 +14,7 @@ dfilter = DataFilter(use_bno)
 piddle  = PID()
 state_machine = StateManager()
 servo = Servo()
-scribe = Scribe()
+scribe = Scribe(use_bno)
 
 while True:
     #Read in data from the data logger
