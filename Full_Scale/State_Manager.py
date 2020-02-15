@@ -5,13 +5,14 @@ class StateManager():
     def __init__(self):
         self.state_list = ['Armed','Launched','Burnout','Apogee','Overshoot','Landed']
         self.current_state = 0
-        self.threshold_of_liftoff = 0
-        self.threshold_of_burnout = 0
-        self.emergency_height = 305
+        
+        self.liftoff_height = 30
+        self.liftoff_accel = 40
+
+        self.burnout_accel = -6.125
+        self.burnout_height = 305
+
         self.apogee = 1354
-        self.threshold_of_landing = 0
-        #The exact values of threshold of liftoff,burnout, and landing should replace the 0's
-  
 
     #Takes in input data from Kalman Filter and adjusts the current state if necessary
     def check_transition(self,height,velocity,acceleration):
@@ -22,11 +23,11 @@ class StateManager():
         next_state = self.current_state
 
         if self.current_state == 0: #Armed
-            if acceleration > self.threshold_of_liftoff or height > self.emergency_height/3:
+            if acceleration > self.liftoff_accel or height > self.liftoff_height:
                 next_state = 1
 
         if self.current_state == 1: #Launched
-            if (acceleration < self.threshold_of_burnout and velocity >= self.threshold_vel_of_burnout) or (height > self.emergency_height):
+            if acceleration < self.burnout_accel or height > self.burnout_height:
                 next_state = 2
 
         if self.current_state == 2: #Burnout
@@ -36,7 +37,7 @@ class StateManager():
             if velocity < 0:
                 next_stage = 3
                 #Change to the Apogee stage
-            elif height > self.apogee and velocity > 0:
+            if height > self.apogee and velocity > 0:
                 next_stage = 4
                 #Change to the Overshot stage
                 
