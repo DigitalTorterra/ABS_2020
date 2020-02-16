@@ -1,0 +1,8 @@
+#!/bin/sh
+# superscript.sh
+# do stuff
+
+cd /
+cd home/pi/ABS_2020/Full_Scale
+python3 abs.py
+cd /

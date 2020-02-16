@@ -16,32 +16,37 @@ state_machine = StateManager()
 servo = Servo()
 scribe = Scribe(use_bno)
 
+print('Successfully Initialized')
+
 while True:
-    #Read in data from the data logger
-    dlogger.read_data()
-    raw_data = dlogger.get_data()
+    try:
+        #Read in data from the data logger
+        dlogger.read_data()
+        raw_data = dlogger.get_data()
 
-    #Filter the data
-    t,theta,y,v,a = dfilter.process_data(raw_data)
+        #Filter the data
+        t,theta,y,v,a = dfilter.process_data(raw_data)
 
-    #Check flight state
-    state_machine.check_transition(y,v,a)
-    state = state_machine.get_state()
+        #Check flight state
+        state_machine.check_transition(y,v,a)
+        state = state_machine.get_state()
 
-    #do PID stuff if necessary
-    if state == 'Burnout':
-        if not piddle.initialized:
-            piddle.init_readings(y,v)
-        
-        piddle.PID_step(y,v)
-        phi = piddle.get_phi()
-    elif state == 'Overshoot':
-        phi = piddle.maxPhi
-    else:
-        phi = 0
+        #do PID stuff if necessary
+        if state == 'Burnout':
+            if not piddle.initialized:
+                piddle.init_readings(y,v)
+            
+            piddle.PID_step(y,v)
+            phi = piddle.get_phi()
+        elif state == 'Overshoot':
+            phi = piddle.maxPhi
+        else:
+            phi = 0
 
-    #actuate servo to phi radians
-    servo.rotate(phi)
+        #actuate servo to phi radians
+        servo.rotate(phi)
 
-    print(y,v,a)
-    scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
+        #print(y,v,a)
+        scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
+    except:
+        print('Row failed. Oops')
