@@ -4,5 +4,6 @@
 
 cd /
 cd home/pi/ABS_2020/Full_Scale
+sudo pigpiod
 python3 abs.py
 cd /
