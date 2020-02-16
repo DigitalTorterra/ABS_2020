@@ -83,7 +83,7 @@ class PID():
         vrocket = self.vy[-1]
         err1 = vrocket - videal
 
-        if yid < 1000:
+        if yid < 300:
             err1 = 0
 
         return err1
