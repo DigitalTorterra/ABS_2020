@@ -2,8 +2,6 @@ import pigpio
 from time import sleep
 import os
 
-os.system('sudo pigpiod')
-
 class Servo():
     def __init__(self):
         #set rotation bounds
@@ -31,6 +29,3 @@ class Servo():
             self.pi.set_PWM_dutycycle(self.pin,new_cycle)
         else:
             print('Invalid rotation given')
-    def __del__(self):
-        os.system('sudo killall pigpiod')
-

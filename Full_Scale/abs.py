@@ -16,6 +16,8 @@ state_machine = StateManager()
 servo = Servo()
 scribe = Scribe(use_bno)
 
+print('Successfully Initialized')
+
 while True:
     try:
         #Read in data from the data logger
@@ -44,7 +46,14 @@ while True:
         #actuate servo to phi radians
         servo.rotate(phi)
 
+<<<<<<< HEAD
         print(y,v,a)
         scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
     except:
         pass
+=======
+        #print(y,v,a)
+        scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
+    except:
+        print('Row failed. Oops')
+>>>>>>> 60f260a80d180c90143d4f9e77efdfc12e9320ef
