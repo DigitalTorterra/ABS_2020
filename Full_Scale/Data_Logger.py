@@ -19,7 +19,7 @@ import adafruit_mpl3115a2
 #import adafruit_bno055
 from Adafruit_BNO055 import BNO055 #Import the new library 
 import adafruit_adxl34x
-from gpiozero import LED
+# from gpiozero import LED
 
 
 
@@ -47,7 +47,7 @@ class DataLogger():
         time.sleep(1)
         self.zero_mpl()
 
-        self.led = LED(21)
+       # self.led = LED(21)
 
         #Initialize ADXL
         self.adxl = adafruit_adxl34x.ADXL345(self.i2c)
@@ -67,7 +67,7 @@ class DataLogger():
 
     #Read sensor data
     def read_data(self):
-        self.led.on()
+       # self.led.on()
 
         self.timestamp = time.time()
 
@@ -97,7 +97,7 @@ class DataLogger():
         self.adxl_accel = self.adxl.acceleration
         self.adxl_accel = tuple([i if i is not None else 0 for i in self.adxl_accel])
 
-        self.led.off()
+       # self.led.off()
 
 
     #Outputs the current data

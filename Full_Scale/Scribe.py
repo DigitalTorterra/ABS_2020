@@ -56,6 +56,7 @@ class Scribe():
             f.write("ADXL Z Acceleration,")
             f.write("Kalman Theta,")
             f.write("Kalman Height,")
+            f.write("Kalman Velocity, ")
             f.write("Kalman Acceleration,")
             f.write("Current State,")
             f.write("Phi")

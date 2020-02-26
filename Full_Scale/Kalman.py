@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import time
 
 """
@@ -138,7 +138,7 @@ class DataFilter():
         else:
             theta = 0
         
-        accel = accel[0]
+        accel = accel[0]*-1-10.340865
 
         #handle time
         dt = timestamp-self.timestamp

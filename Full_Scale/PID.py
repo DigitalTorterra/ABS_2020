@@ -3,9 +3,9 @@ import numpy as np
 class PID():
     def __init__(self):
         # set gains
-        self.kP = 0.1   # proportional gain
-        self.kD = 1000  # derivative gain
-        self.kI = 0.001 # integral gain
+        self.kP = 20   # proportional gain
+        self.kD = .1  # derivative gain
+        self.kI = 0.001# integral gain
 
         # read file data
         self.fileName = 'Ideal_Flight_Profile.csv'
@@ -14,8 +14,8 @@ class PID():
         self.ymax = 1354 # target altitude
         self.dt = 0.01   # simulation timestep
 
-        self.maxPhi = 63.5*np.pi/180      # max absolute value of phi in radians
-        self.maxDeltaPhi = 60*np.pi/180/0.17*self.dt # rads
+        self.maxPhi = 63.5#*np.pi/180      # max absolute value of phi in radians
+        self.maxDeltaPhi = 60/.17#*np.pi/180/0.17*self.dt # rads
         
         # flags
         self.initialized = 0
@@ -61,6 +61,7 @@ class PID():
 
         # determine shaft angle
         phi = self.kP*self.err1[-1] + self.kD*derivError + self.kI*intError
+        print(phi)
         self.phi.append(self.check_phi(phi))
 
 
@@ -78,8 +79,11 @@ class PID():
             else:
                 yid = self.ymax
 
+        if i == max_i:
+            return 10000
+
         m = (self.data[i,1] - self.data[i-1,1])/(self.data[i,0] - self.data[i-1,0])
-        videal = m*(self.y[-1] - self.data[i-1,0] + self.data[i-1,1])
+        videal = m*(self.y[-1] - self.data[i-1,0]) + self.data[i-1,1]
         vrocket = self.vy[-1]
         err1 = vrocket - videal
 
@@ -130,7 +134,10 @@ class PID():
     
     #Outputs the current shaft rotation
     def get_phi(self):
-        return self.phi[-1]*180/np.pi
+        return self.phi[-1]#*180/np.pi
+
+    def get_max(self):
+        return self.maxPhi#*180/np.pi
 
 
 

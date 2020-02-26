@@ -39,21 +39,15 @@ while True:
             piddle.PID_step(y,v)
             phi = piddle.get_phi()
         elif state == 'Overshoot':
-            phi = piddle.maxPhi
+            phi = piddle.get_max()
         else:
             phi = 0
 
         #actuate servo to phi radians
         servo.rotate(phi)
-
-<<<<<<< HEAD
-        print(y,v,a)
-        scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
-    except:
-        pass
-=======
+        
+        print(raw_data)
         #print(y,v,a)
         scribe(t,raw_data[1],raw_data[2],raw_data[3],theta,y,v,a,state,phi)
     except:
         print('Row failed. Oops')
->>>>>>> 60f260a80d180c90143d4f9e77efdfc12e9320ef
